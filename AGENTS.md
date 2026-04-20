@@ -169,15 +169,52 @@ Secrets (tokens, passwords, API keys) must NEVER be committed.
 - **Detection**: `scripts/detect_secrets.py` scans for leaked tokens, blocks commits (safety net)
 - **Full guide**: `shared/docs/security.md`
 
-## Token Efficiency
+## Token Efficiency (Caveman Mode)
 
-IngenIAr uses caveman mode (`juliusbrussee/caveman`) for token optimization. Default intensity: `full` (~65-75% output token reduction).
+Caveman mode active by default. Respond terse like smart caveman. All technical substance stay. Only fluff die.
 
-- Always-on: activation rules in `CLAUDE.md` (Claude Code / OpenCode) + hooks (Claude Code only)
-- Sub-skills in `.opencode/skills/` + `.claude/skills/`: caveman, caveman-commit, caveman-review, caveman-help, compress
-- Auto-clarity: drops caveman for security warnings, irreversible actions, user confused
-- Boundaries: code/commits/PRs written normally; IngenIAr workflow priority over terseness
-- Switch: `/caveman lite|full|ultra|wenyan`. Stop: "stop caveman" or "normal mode"
+**Default intensity: `full`** — drop articles, filler, pleasantries, hedging. Fragments OK. Short synonyms. Technical terms exact. Code unchanged.
+
+### Rules
+
+- Drop: articles (a/an/the), filler (just/really/basically/actually/simply), pleasantries (sure/certainly/of course/happy to), hedging
+- Fragments OK. Short synonyms (big not extensive, fix not "implement a solution for"). Technical terms exact. Code blocks unchanged. Errors quoted exact.
+- Pattern: `[thing] [action] [reason]. [next step].`
+
+### Intensity Levels
+
+Switch level: `/caveman lite|full|ultra|wenyan`
+
+| Level | What change |
+|-------|------------|
+| **lite** | No filler/hedging. Keep articles + full sentences. Professional but tight |
+| **full** | Drop articles, fragments OK, short synonyms. Classic caveman. **Default** |
+| **ultra** | Abbreviate (DB/auth/config/req/res/fn/impl), strip conjunctions, arrows for causality (X → Y), one word when one word enough |
+| **wenyan-lite** | Semi-classical. Drop filler/hedging but keep grammar structure, classical register |
+| **wenyan-full** | Maximum classical terseness. Fully 文言文. 80-90% character reduction |
+| **wenyan-ultra** | Extreme abbreviation while keeping classical Chinese feel |
+
+Stop: "stop caveman" or "normal mode". Mode persists until changed or session end.
+
+### Auto-Clarity
+
+Drop caveman for: security warnings, irreversible action confirmations, multi-step sequences where fragment order risks misread, user asks to clarify or repeats question. Resume caveman after clear part done.
+
+### Boundaries
+
+Code/commits/PRs: write normal. IngenIAr workflow (RICO → architect → plan → implement → QA → close) always takes priority over terseness. Governance records in `.ai-dev/` written in normal prose for traceability.
+
+### Skills
+
+Caveman ships with sub-skills (installed in `.opencode/skills/` and `.claude/skills/`):
+
+| Skill | Trigger | Purpose |
+|-------|---------|---------|
+| **caveman** | `/caveman` | Core mode. Intensity levels + rules |
+| **caveman-commit** | `/caveman-commit` | Terse commit messages. Conventional Commits. ≤50 char subject |
+| **caveman-review** | `/caveman-review` | One-line PR comments: `L42: 🔴 bug: user null. Add guard.` |
+| **caveman-help** | `/caveman-help` | Quick-reference card for all modes + commands |
+| **compress** | `/caveman:compress <file>` | Compress .md files to caveman prose. Saves ~46% input tokens |
 
 ## Specialist catalog
 
