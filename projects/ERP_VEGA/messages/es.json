@@ -1,0 +1,237 @@
+{
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "export": "Exportar",
+    "import": "Importar",
+    "loading": "Cargando...",
+    "noData": "No hay datos",
+    "actions": "Acciones",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "yes": "Sí",
+    "no": "No",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "all": "Todos"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "rememberMe": "Recordarme",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "register": "Registrarse",
+    "createAccount": "Crear cuenta",
+    "name": "Nombre",
+    "confirmPassword": "Confirmar contraseña",
+    "invalidCredentials": "Credenciales inválidas",
+    "loginSuccess": "Sesión iniciada correctamente",
+    "registerSuccess": "Usuario creado correctamente"
+  },
+  "navigation": {
+    "dashboard": "Panel",
+    "suppliers": "Proveedores",
+    "contracts": "Contratos",
+    "projects": "Proyectos",
+    "sourcingBoard": "Sourcing Board",
+    "rfq": "RFQ",
+    "tasks": "Tareas",
+    "reports": "Reportes",
+    "users": "Usuarios",
+    "towerModels": "Modelos de torre",
+    "internals": "Internos",
+    "logistics": "Logística",
+    "finance": "Financiero"
+  },
+  "roles": {
+    "admin": "Administrador",
+    "purchasing_steel": "Compras Acero",
+    "purchasing_flanges": "Compras Bridas",
+    "internals": "Internos",
+    "logistics": "Logística",
+    "conversion": "Conversión",
+    "direction": "Dirección",
+    "finance": "Financiero"
+  },
+  "suppliers": {
+    "title": "Proveedores",
+    "newSupplier": "Nuevo proveedor",
+    "editSupplier": "Editar proveedor",
+    "supplierName": "Nombre",
+    "category": "Categoría",
+    "country": "País",
+    "contactEmail": "Email de contacto",
+    "paymentTerms": "Términos de pago",
+    "categories": {
+      "steel": "Acero",
+      "flanges": "Bridas",
+      "internals": "Internos",
+      "tower_maker": "Torrero",
+      "logistics": "Logística"
+    }
+  },
+  "contracts": {
+    "title": "Contratos",
+    "newContract": "Nuevo contrato",
+    "editContract": "Editar contrato",
+    "supplier": "Proveedor",
+    "totalTons": "Toneladas totales",
+    "consumedTons": "Toneladas consumidas",
+    "availableTons": "Toneladas disponibles",
+    "basePrice": "Precio base por tonelada",
+    "validFrom": "Válido desde",
+    "validTo": "Válido hasta",
+    "status": "Estado",
+    "conditions": "Condiciones",
+    "newCondition": "Nueva condición",
+    "spotPurchase": "Compra SPOT",
+    "spotJustification": "Justificación SPOT",
+    "attachment": "Adjunto",
+    "states": {
+      "active": "Activo",
+      "exhausted": "Agotado",
+      "expired": "Expirado"
+    },
+    "alerts": {
+      "nearCapacity": "Alerta: el contrato está al 80% de capacidad",
+      "exhausted": "El contrato está agotado"
+    }
+  },
+  "projects": {
+    "title": "Proyectos",
+    "newProject": "Nuevo proyecto",
+    "editProject": "Editar proyecto",
+    "projectCode": "Código",
+    "projectName": "Nombre",
+    "projectCountry": "País",
+    "exchangeRate": "Tipo de cambio",
+    "status": "Estado",
+    "towerGroups": "Grupos de torres",
+    "addTowerGroup": "Añadir grupo",
+    "towerModel": "Modelo de torre",
+    "quantity": "Cantidad",
+    "steelTonsOverride": "Override toneladas acero",
+    "states": {
+      "draft": "Borrador",
+      "rfq_sent": "RFQ enviado",
+      "sourcing_board": "Sourcing Board",
+      "cond_approved": "Aprobación condicional",
+      "approved": "Aprobado",
+      "blocked": "Bloqueado"
+    },
+    "locked": "Proyecto bloqueado",
+    "lockedMessage": "Este proyecto está bloqueado. Solicite un cambio para modificarlo."
+  },
+  "sourcingBoard": {
+    "title": "Sourcing Board",
+    "version": "Versión",
+    "heldAt": "Fecha",
+    "outcome": "Resultado",
+    "comments": "Comentarios",
+    "approve": "Aprobar",
+    "conditionallyApprove": "Aprobación condicional",
+    "reject": "Rechazar",
+    "outcomes": {
+      "rejected": "Rechazado",
+      "conditionally_approved": "Aprobación condicional",
+      "approved": "Aprobado"
+    },
+    "logistics": "Logística",
+    "steel": "Acero",
+    "flanges": "Bridas",
+    "internals": "Internos",
+    "conversion": "Conversión",
+    "totalPerTower": "Total por torre",
+    "viewDetails": "Ver detalle"
+  },
+  "rfq": {
+    "title": "RFQ",
+    "newRfq": "Nueva RFQ",
+    "selectTowerMakers": "Seleccionar torreros",
+    "sendRfq": "Enviar RFQ",
+    "deadline": "Fecha límite",
+    "status": "Estado",
+    "conversionPrice": "Precio de conversión",
+    "uploadResponse": "Subir respuesta",
+    "compareOffers": "Comparar ofertas",
+    "selectWinner": "Seleccionar ganador",
+    "states": {
+      "sent": "Enviado",
+      "received": "Recibido",
+      "reviewed": "Revisado",
+      "selected": "Seleccionado",
+      "rejected": "Rechazado"
+    }
+  },
+  "tasks": {
+    "title": "Tareas",
+    "newTask": "Nueva tarea",
+    "assignedTo": "Asignado a",
+    "description": "Descripción",
+    "dueDate": "Fecha límite",
+    "status": "Estado",
+    "resolutionNote": "Nota de resolución",
+    "states": {
+      "pending": "Pendiente",
+      "in_progress": "En progreso",
+      "done": "Completado",
+      "escalated": "Escalado"
+    }
+  },
+  "changes": {
+    "title": "Solicitudes de cambio",
+    "newChange": "Nueva solicitud",
+    "area": "Área",
+    "fieldName": "Campo",
+    "currentValue": "Valor actual",
+    "proposedValue": "Valor propuesto",
+    "justification": "Justificación",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "states": {
+      "pending": "Pendiente",
+      "approved": "Aprobado",
+      "rejected": "Rechazado"
+    }
+  },
+  "audit": {
+    "title": "Auditoría",
+    "history": "Historial de cambios",
+    "changedBy": "Modificado por",
+    "changedAt": "Fecha",
+    "oldValue": "Valor anterior",
+    "newValue": "Nuevo valor",
+    "reason": "Motivo"
+  },
+  "reports": {
+    "title": "Reportes",
+    "totalCostPerProject": "Coste total por proyecto",
+    "contractConsumption": "Consumo de contratos",
+    "costsBySupplier": "Costes por proveedor",
+    "exportExcel": "Exportar Excel",
+    "exportPdf": "Exportar PDF"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "welcome": "Bienvenido",
+    "projectsByStatus": "Proyectos por estado",
+    "activeContracts": "Contratos activos",
+    "availableTons": "Toneladas disponibles"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "email": "Email inválido",
+    "min": "Valor mínimo: {min}",
+    "max": "Valor máximo: {max}",
+    "positive": "Debe ser un número positivo"
+  }
+}

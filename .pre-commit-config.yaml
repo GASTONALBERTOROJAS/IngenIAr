@@ -1,0 +1,38 @@
+# IngenIAr Pre-commit Hooks
+#
+# Install:
+#   pip install pre-commit
+#   pre-commit install
+#
+# This runs the IngenIAr governance validator before every commit,
+# blocking commits that violate repository governance rules.
+
+repos:
+  - repo: local
+    hooks:
+      - id: ingeniar-validate
+        name: IngenIAr Governance Validation
+        entry: python scripts/validate_ingeniar.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+        description: Validates that the IngenIAr repository governance layer is intact before allowing a commit.
+
+      - id: ingeniar-new-project-check
+        name: IngenIAr New Project Template Check
+        entry: python -c "import sys; from pathlib import Path; projects=Path('projects'); [sys.exit(1) for p in projects.iterdir() if p.is_dir() and not (p/'.ai-dev').is_dir() and not p.name.startswith('.')]; print('OK')"
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+        description: Blocks commits if any project under projects/ is missing its .ai-dev/ governance layer.
+
+      - id: ingeniar-detect-secrets
+        name: IngenIAr Secret Leak Detection
+        entry: python scripts/detect_secrets.py
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+        description: Scans tracked files for leaked secrets (GitHub tokens, DB passwords, API keys). Blocks commits containing real secrets.

@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #135091;
+  --color-primary-dark: #0D3A6B;
+  --color-primary-light: #1A6BC4;
+  --color-primary-tint: #E8F0FB;
+  --color-background: #F5F7FA;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #2C2C2C;
+  --color-text-muted: #64748B;
+  --color-border: #E0E4EB;
+  --color-success: #1A7A44;
+  --color-warning: #C45A00;
+  --color-danger: #B91C1C;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+@layer utilities {
+  .text-h1 {
+    @apply text-[28px] font-semibold leading-tight;
+  }
+
+  .text-h2 {
+    @apply text-[20px] font-medium leading-snug;
+  }
+
+  .text-h3 {
+    @apply text-[15px] font-medium leading-normal;
+  }
+
+  .text-body {
+    @apply text-[14px] font-normal leading-relaxed;
+  }
+
+  .text-small {
+    @apply text-[12px] font-normal leading-normal;
+  }
+
+  .text-micro {
+    @apply text-[11px] font-normal leading-tight;
+  }
+}
+
+::selection {
+  background-color: var(--color-primary-tint);
+  color: var(--color-primary);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}

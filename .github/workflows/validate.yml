@@ -1,0 +1,49 @@
+name: IngenIAr Governance
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate Repository Governance
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run IngenIAr Validator
+        run: python scripts/validate_ingeniar.py --strict
+
+      - name: Validate root opencode.json
+        run: python -c "import json; json.load(open('opencode.json')); print('opencode.json: valid')"
+
+      - name: Validate template opencode.json
+        run: python -c "import json; json.load(open('templates/base_project/opencode.json')); print('template opencode.json: valid')"
+
+      - name: Check no project without governance
+        run: |
+          python -c "
+          import sys
+          from pathlib import Path
+          projects = Path('projects')
+          if not projects.is_dir():
+              print('No projects/ directory — skipping')
+              sys.exit(0)
+          missing = []
+          for p in sorted(projects.iterdir()):
+              if p.is_dir() and not p.name.startswith('.') and not (p / '.ai-dev').is_dir():
+                  missing.append(p.name)
+          if missing:
+              print(f'FAIL: projects missing .ai-dev/: {missing}')
+              sys.exit(1)
+          print('All projects have .ai-dev/ governance layer')
+          "

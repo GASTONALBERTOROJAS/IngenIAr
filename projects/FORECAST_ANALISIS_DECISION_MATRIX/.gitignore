@@ -1,0 +1,6 @@
+.venv/
+.env
+output/
+scripts/__pycache__/
+*.pyc
+~$*.xlsx

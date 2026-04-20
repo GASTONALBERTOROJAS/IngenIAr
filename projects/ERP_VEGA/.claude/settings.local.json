@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ':*)",
+      "Bash(python -c ':*)",
+      "Bash(pnpm build:*)",
+      "Bash(psql:*)",
+      "Bash(pnpm db:generate)"
+    ]
+  }
+}

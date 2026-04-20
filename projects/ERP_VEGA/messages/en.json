@@ -1,0 +1,237 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "import": "Import",
+    "loading": "Loading...",
+    "noData": "No data",
+    "actions": "Actions",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "yes": "Yes",
+    "no": "No",
+    "active": "Active",
+    "inactive": "Inactive",
+    "all": "All"
+  },
+  "auth": {
+    "login": "Sign in",
+    "logout": "Sign out",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "register": "Register",
+    "createAccount": "Create account",
+    "name": "Name",
+    "confirmPassword": "Confirm password",
+    "invalidCredentials": "Invalid credentials",
+    "loginSuccess": "Session started successfully",
+    "registerSuccess": "User created successfully"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "suppliers": "Suppliers",
+    "contracts": "Contracts",
+    "projects": "Projects",
+    "sourcingBoard": "Sourcing Board",
+    "rfq": "RFQ",
+    "tasks": "Tasks",
+    "reports": "Reports",
+    "users": "Users",
+    "towerModels": "Tower Models",
+    "internals": "Internals",
+    "logistics": "Logistics",
+    "finance": "Finance"
+  },
+  "roles": {
+    "admin": "Administrator",
+    "purchasing_steel": "Steel Purchasing",
+    "purchasing_flanges": "Flanges Purchasing",
+    "internals": "Internals",
+    "logistics": "Logistics",
+    "conversion": "Conversion",
+    "direction": "Direction",
+    "finance": "Finance"
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "newSupplier": "New supplier",
+    "editSupplier": "Edit supplier",
+    "supplierName": "Name",
+    "category": "Category",
+    "country": "Country",
+    "contactEmail": "Contact email",
+    "paymentTerms": "Payment terms",
+    "categories": {
+      "steel": "Steel",
+      "flanges": "Flanges",
+      "internals": "Internals",
+      "tower_maker": "Tower Maker",
+      "logistics": "Logistics"
+    }
+  },
+  "contracts": {
+    "title": "Contracts",
+    "newContract": "New contract",
+    "editContract": "Edit contract",
+    "supplier": "Supplier",
+    "totalTons": "Total tons",
+    "consumedTons": "Consumed tons",
+    "availableTons": "Available tons",
+    "basePrice": "Base price per ton",
+    "validFrom": "Valid from",
+    "validTo": "Valid to",
+    "status": "Status",
+    "conditions": "Conditions",
+    "newCondition": "New condition",
+    "spotPurchase": "SPOT purchase",
+    "spotJustification": "SPOT justification",
+    "attachment": "Attachment",
+    "states": {
+      "active": "Active",
+      "exhausted": "Exhausted",
+      "expired": "Expired"
+    },
+    "alerts": {
+      "nearCapacity": "Alert: contract is at 80% capacity",
+      "exhausted": "Contract is exhausted"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "newProject": "New project",
+    "editProject": "Edit project",
+    "projectCode": "Code",
+    "projectName": "Name",
+    "projectCountry": "Country",
+    "exchangeRate": "Exchange rate",
+    "status": "Status",
+    "towerGroups": "Tower groups",
+    "addTowerGroup": "Add group",
+    "towerModel": "Tower model",
+    "quantity": "Quantity",
+    "steelTonsOverride": "Steel tons override",
+    "states": {
+      "draft": "Draft",
+      "rfq_sent": "RFQ sent",
+      "sourcing_board": "Sourcing Board",
+      "cond_approved": "Conditionally approved",
+      "approved": "Approved",
+      "blocked": "Blocked"
+    },
+    "locked": "Project locked",
+    "lockedMessage": "This project is locked. Request a change to modify it."
+  },
+  "sourcingBoard": {
+    "title": "Sourcing Board",
+    "version": "Version",
+    "heldAt": "Date",
+    "outcome": "Outcome",
+    "comments": "Comments",
+    "approve": "Approve",
+    "conditionallyApprove": "Conditionally approve",
+    "reject": "Reject",
+    "outcomes": {
+      "rejected": "Rejected",
+      "conditionally_approved": "Conditionally approved",
+      "approved": "Approved"
+    },
+    "logistics": "Logistics",
+    "steel": "Steel",
+    "flanges": "Flanges",
+    "internals": "Internals",
+    "conversion": "Conversion",
+    "totalPerTower": "Total per tower",
+    "viewDetails": "View details"
+  },
+  "rfq": {
+    "title": "RFQ",
+    "newRfq": "New RFQ",
+    "selectTowerMakers": "Select tower makers",
+    "sendRfq": "Send RFQ",
+    "deadline": "Deadline",
+    "status": "Status",
+    "conversionPrice": "Conversion price",
+    "uploadResponse": "Upload response",
+    "compareOffers": "Compare offers",
+    "selectWinner": "Select winner",
+    "states": {
+      "sent": "Sent",
+      "received": "Received",
+      "reviewed": "Reviewed",
+      "selected": "Selected",
+      "rejected": "Rejected"
+    }
+  },
+  "tasks": {
+    "title": "Tasks",
+    "newTask": "New task",
+    "assignedTo": "Assigned to",
+    "description": "Description",
+    "dueDate": "Due date",
+    "status": "Status",
+    "resolutionNote": "Resolution note",
+    "states": {
+      "pending": "Pending",
+      "in_progress": "In progress",
+      "done": "Done",
+      "escalated": "Escalated"
+    }
+  },
+  "changes": {
+    "title": "Change requests",
+    "newChange": "New request",
+    "area": "Area",
+    "fieldName": "Field",
+    "currentValue": "Current value",
+    "proposedValue": "Proposed value",
+    "justification": "Justification",
+    "approve": "Approve",
+    "reject": "Reject",
+    "states": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    }
+  },
+  "audit": {
+    "title": "Audit",
+    "history": "Change history",
+    "changedBy": "Changed by",
+    "changedAt": "Date",
+    "oldValue": "Old value",
+    "newValue": "New value",
+    "reason": "Reason"
+  },
+  "reports": {
+    "title": "Reports",
+    "totalCostPerProject": "Total cost per project",
+    "contractConsumption": "Contract consumption",
+    "costsBySupplier": "Costs by supplier",
+    "exportExcel": "Export Excel",
+    "exportPdf": "Export PDF"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome",
+    "projectsByStatus": "Projects by status",
+    "activeContracts": "Active contracts",
+    "availableTons": "Available tons"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Invalid email",
+    "min": "Minimum value: {min}",
+    "max": "Maximum value: {max}",
+    "positive": "Must be a positive number"
+  }
+}

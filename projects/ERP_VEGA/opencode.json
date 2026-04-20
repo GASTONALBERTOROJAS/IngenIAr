@@ -1,0 +1,14 @@
+{
+  "instructions": [
+    "AGENTS.md",
+    "SPEC.md"
+  ],
+  "agent": {
+    "plan": {
+      "prompt": "Plan ERP_VEGA work before implementation."
+    },
+    "build": {
+      "prompt": "Implement ERP_VEGA work after planning and prepare QA."
+    }
+  }
+}

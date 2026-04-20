@@ -1,0 +1,474 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SupplierCategory {
+  steel
+  flanges
+  internals
+  tower_maker
+  logistics
+}
+
+enum UserRole {
+  admin
+  purchasing_steel
+  purchasing_flanges
+  internals
+  logistics
+  conversion
+  direction
+  finance
+}
+
+enum ProjectStatus {
+  draft
+  rfq_sent
+  sourcing_board
+  cond_approved
+  approved
+  blocked
+}
+
+enum ContractStatus {
+  active
+  exhausted
+  expired
+}
+
+enum Incoterm {
+  EXW
+  DAP
+  DDP
+}
+
+enum SteelLineType {
+  contract
+  others_model
+  spot
+}
+
+enum FlangesLineType {
+  contract
+  spot
+}
+
+enum DirectItemType {
+  anchor_cage
+  bolts
+  mv_cable
+  damper
+}
+
+enum RfqStatus {
+  sent
+  received
+  reviewed
+  selected
+  rejected
+}
+
+enum SourcingOutcome {
+  rejected
+  conditionally_approved
+  approved
+}
+
+enum TaskStatus {
+  pending
+  in_progress
+  done
+  escalated
+}
+
+enum ChangeStatus {
+  pending
+  approved
+  rejected
+}
+
+enum Language {
+  es
+  en
+}
+
+model Supplier {
+  supplier_id     String           @id @default(uuid())
+  name            String
+  category        SupplierCategory
+  country         String
+  contact_email   String
+  payment_terms   String?
+  is_active       Boolean          @default(true)
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
+
+  contracts       Contract[]
+  rfq_requests    RfqRequest[]
+  direct_costs    ProjectDirectCost[]
+  logistics_costs ProjectLogisticsCost[]
+  group_makers    ProjectTowerGroupMaker[]
+  internals_matrix InternalsMatrix[]
+}
+
+model TowerModel {
+  tower_model_id  String   @id @default(uuid())
+  platform        String
+  hub_height      Decimal
+  sections_qty    Int
+  base_steel_tons Decimal
+  is_active       Boolean  @default(true)
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  tower_groups     ProjectTowerGroup[]
+  internals_matrix InternalsMatrix[]
+}
+
+model User {
+  user_id            String   @id @default(uuid())
+  name               String
+  email              String   @unique
+  password_hash      String
+  role               UserRole
+  preferred_language Language @default(es)
+  is_active          Boolean  @default(true)
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  approved_projects   Project[]           @relation("ApprovedBy")
+  created_projects    Project[]           @relation("CreatedBy")
+  tasks_assigned      Task[]              @relation("AssignedTo")
+  tasks_created       Task[]              @relation("CreatedBy")
+  change_requests     ChangeRequest[]     @relation("RequestedBy")
+  change_approvals     ChangeRequest[]     @relation("ApprovedBy")
+  audit_logs          AuditLog[]
+  sourcing_approvals   SourcingBoard[]
+}
+
+model InternalsCatalog {
+  internal_id       String   @id @default(uuid())
+  name              String
+  category          String
+  applies_to_models String[]
+  is_active         Boolean  @default(true)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  matrix_entries    InternalsMatrix[]
+}
+
+model InternalsMatrix {
+  matrix_id        String   @id @default(uuid())
+  internal_id      String
+  supplier_id      String
+  tower_model_id   String
+  incoterm         Incoterm
+  base_price       Decimal
+  currency         String   @default("EUR")
+  sharewallet_pct  Decimal  @default(0)
+  sharewallet_used Decimal  @default(0)
+  is_active        Boolean  @default(true)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  internal         InternalsCatalog @relation(fields: [internal_id], references: [internal_id])
+  supplier         Supplier         @relation(fields: [supplier_id], references: [supplier_id])
+  tower_model      TowerModel       @relation(fields: [tower_model_id], references: [tower_model_id])
+  project_costs    ProjectInternalsCost[]
+
+  @@unique([internal_id, supplier_id, tower_model_id, incoterm])
+}
+
+model Contract {
+  contract_id        String         @id @default(uuid())
+  supplier_id        String
+  category           String
+  total_tons         Decimal
+  consumed_tons      Decimal        @default(0)
+  base_price_per_ton Decimal
+  currency          String         @default("EUR")
+  valid_from        DateTime
+  valid_to          DateTime
+  status            ContractStatus @default(active)
+  is_active         Boolean        @default(true)
+  created_at        DateTime       @default(now())
+  updated_at        DateTime       @updatedAt
+
+  supplier          Supplier       @relation(fields: [supplier_id], references: [supplier_id])
+  conditions        ContractCondition[]
+  steel_costs       ProjectSteelCost[]
+  flanges_costs     ProjectFlangesCost[]
+}
+
+model ContractCondition {
+  condition_id   String  @id @default(uuid())
+  contract_id    String
+  condition_type String
+  description    String
+  price_impact   Decimal
+  impact_type    String
+  is_active     Boolean @default(true)
+  created_at     DateTime @default(now())
+
+  contract      Contract @relation(fields: [contract_id], references: [contract_id], onDelete: Cascade)
+}
+
+model Project {
+  project_id      String        @id @default(uuid())
+  project_code    String        @unique
+  project_name    String
+  project_country String
+  exchange_rate   Decimal?
+  status          ProjectStatus @default(draft)
+  is_locked       Boolean       @default(false)
+  approved_by    String?
+  approved_at    DateTime?
+  created_by     String
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+
+  approver       User?         @relation("ApprovedBy", fields: [approved_by], references: [user_id])
+  creator        User          @relation("CreatedBy", fields: [created_by], references: [user_id])
+  tower_groups   ProjectTowerGroup[]
+  logistics_cost ProjectLogisticsCost?
+  direct_costs   ProjectDirectCost[]
+  rfq_requests  RfqRequest[]
+  sourcing_boards SourcingBoard[]
+  tasks          Task[]
+  change_requests ChangeRequest[]
+  audit_logs     AuditLog[]
+}
+
+model ProjectTowerGroup {
+  group_id             String   @id @default(uuid())
+  project_id           String
+  tower_model_id       String
+  quantity             Int
+  steel_tons_override  Decimal?
+  fabrication_schedule Json?
+  notes                String?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  project       Project      @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
+  tower_model   TowerModel  @relation(fields: [tower_model_id], references: [tower_model_id])
+  makers        ProjectTowerGroupMaker[]
+  steel_costs   ProjectSteelCost[]
+  flanges_costs ProjectFlangesCost[]
+  internals_costs ProjectInternalsCost[]
+}
+
+model ProjectTowerGroupMaker {
+  assignment_id           String   @id @default(uuid())
+  group_id                String
+  supplier_id             String
+  quantity_assigned       Int
+  rfq_id                  String?
+  payment_terms           String?
+  storage_conditions      String?
+  conversion_price_per_unit Decimal?
+  total_conversion_cost   Decimal?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+
+  group    ProjectTowerGroup @relation(fields: [group_id], references: [group_id], onDelete: Cascade)
+  supplier Supplier          @relation(fields: [supplier_id], references: [supplier_id])
+  rfq      RfqRequest?       @relation(fields: [rfq_id], references: [rfq_id])
+}
+
+model ProjectSteelCost {
+  cost_id             String        @id @default(uuid())
+  group_id            String
+  contract_id         String?
+  line_type           SteelLineType
+  tons_assigned       Decimal
+  base_price_per_ton  Decimal
+  conditions_impact   Decimal       @default(0)
+  final_price_per_ton Decimal
+  total_cost          Decimal
+  spot_justification  String?
+  spot_attachment_url String?
+  others_description  String?
+  created_at          DateTime      @default(now())
+  updated_at          DateTime      @updatedAt
+
+  group    ProjectTowerGroup @relation(fields: [group_id], references: [group_id], onDelete: Cascade)
+  contract Contract?         @relation(fields: [contract_id], references: [contract_id])
+}
+
+model ProjectFlangesCost {
+  cost_id        String          @id @default(uuid())
+  group_id       String
+  contract_id    String?
+  line_type      FlangesLineType
+  base_price     Decimal
+  final_price    Decimal
+  total_cost     Decimal
+  justification  String
+  attachment_url String?
+  created_at     DateTime        @default(now())
+  updated_at     DateTime        @updatedAt
+
+  group    ProjectTowerGroup @relation(fields: [group_id], references: [group_id], onDelete: Cascade)
+  contract Contract?         @relation(fields: [contract_id], references: [contract_id])
+}
+
+model ProjectInternalsCost {
+  cost_id                String   @id @default(uuid())
+  group_id               String
+  matrix_id               String
+  incoterm                Incoterm
+  logistics_cost          Decimal  @default(0)
+  logistics_auto_blocked  Boolean  @default(false)
+  manual_override         Boolean  @default(false)
+  override_justification  String?
+  unit_price              Decimal
+  total_cost              Decimal
+  created_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+
+  group  ProjectTowerGroup @relation(fields: [group_id], references: [group_id], onDelete: Cascade)
+  matrix InternalsMatrix   @relation(fields: [matrix_id], references: [matrix_id])
+}
+
+model ProjectLogisticsCost {
+  cost_id              String   @id @default(uuid())
+  project_id          String   @unique
+  supplier_id         String
+  pre_run              Decimal  @default(0)
+  ports_operation      Decimal  @default(0)
+  main_run            Decimal  @default(0)
+  co2_tax             Decimal  @default(0)
+  bunker_hedging      Decimal  @default(0)
+  demurrage           Decimal  @default(0)
+  vessel_discharge    Decimal  @default(0)
+  final_run           Decimal  @default(0)
+  assembly            Decimal  @default(0)
+  disassembly         Decimal  @default(0)
+  return_costs        Decimal  @default(0)
+  qty_return_containers Int    @default(0)
+  cost_per_container   Decimal  @default(0)
+  currency_main_run    String   @default("EUR")
+  total_per_tower     Decimal
+  project_total       Decimal
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  project  Project  @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
+  supplier Supplier @relation(fields: [supplier_id], references: [supplier_id])
+}
+
+model ProjectDirectCost {
+  cost_id                   String         @id @default(uuid())
+  project_id                String
+  item_type                 DirectItemType
+  supplier_id               String
+  unit_price                Decimal
+  total_cost                Decimal
+  included_in_sourcing_board Boolean       @default(false)
+  created_at                DateTime       @default(now())
+  updated_at                DateTime       @updatedAt
+
+  project  Project  @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
+  supplier Supplier @relation(fields: [supplier_id], references: [supplier_id])
+}
+
+model RfqRequest {
+  rfq_id            String    @id @default(uuid())
+  project_id        String
+  supplier_id       String
+  sent_at           DateTime  @default(now())
+  deadline          DateTime
+  status            RfqStatus @default(sent)
+  response_file_url String?
+  conversion_price  Decimal?
+  notes             String?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+
+  project     Project              @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
+  supplier    Supplier             @relation(fields: [supplier_id], references: [supplier_id])
+  group_makers ProjectTowerGroupMaker[]
+}
+
+model SourcingBoard {
+  sb_id            String          @id @default(uuid())
+  project_id       String
+  version          Int             @default(1)
+  held_at          DateTime        @default(now())
+  outcome          SourcingOutcome?
+  conditions_text  String?
+  general_comments String?
+  approved_by      String?
+  snapshot_json    Json?
+  created_at       DateTime        @default(now())
+  updated_at       DateTime        @updatedAt
+
+  project  Project @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
+  approver User?    @relation(fields: [approved_by], references: [user_id])
+  tasks    Task[]
+}
+
+model Task {
+  task_id         String     @id @default(uuid())
+  project_id      String
+  sb_id           String?
+  assigned_to     String
+  created_by     String
+  description    String
+  due_date       DateTime
+  status         TaskStatus @default(pending)
+  resolution_note String?
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
+
+  project       Project       @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
+  sourcing_board SourcingBoard? @relation(fields: [sb_id], references: [sb_id], onDelete: SetNull)
+  assignee      User          @relation("AssignedTo", fields: [assigned_to], references: [user_id])
+  creator       User          @relation("CreatedBy", fields: [created_by], references: [user_id])
+}
+
+model ChangeRequest {
+  cr_id           String       @id @default(uuid())
+  project_id      String
+  requested_by    String
+  area            String
+  field_name      String
+  current_value   String
+  proposed_value  String
+  justification   String
+  status          ChangeStatus @default(pending)
+  approved_by     String?
+  approved_at     DateTime?
+  created_at      DateTime     @default(now())
+  updated_at      DateTime     @updatedAt
+
+  project   Project       @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
+  requester User          @relation("RequestedBy", fields: [requested_by], references: [user_id])
+  approver  User?         @relation("ApprovedBy", fields: [approved_by], references: [user_id])
+  audit_logs AuditLog[]
+}
+
+model AuditLog {
+  log_id      String   @id @default(uuid())
+  project_id  String
+  cr_id       String?
+  changed_by  String
+  table_name  String
+  record_id   String
+  field_name  String
+  old_value   String
+  new_value   String
+  changed_at  DateTime @default(now())
+  reason      String
+
+  project Project        @relation(fields: [project_id], references: [project_id], onDelete: Cascade)
+  cr      ChangeRequest? @relation(fields: [cr_id], references: [cr_id], onDelete: SetNull)
+  user    User           @relation(fields: [changed_by], references: [user_id])
+}

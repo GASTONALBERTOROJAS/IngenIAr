@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Build output
+dist/
+build/
+*.egg-info/
+.next/
+out/
+
+# Environment / secrets
+.env
+.env.local
+.env.production
+.env.secrets
+*.local
+opencode.local.json
+.secretsbak
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Generated artifacts (project-specific)
+projects/*/output/
+projects/*/.pytest_cache/
+
+# Keep .ai-dev/ tracked (governance layer)
+!.ai-dev/

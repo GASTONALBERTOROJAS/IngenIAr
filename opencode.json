@@ -1,0 +1,68 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "AGENTS.md",
+    "shared/agent_core/core.md",
+    ".ai-dev/requirements/full_system_context.md",
+    ".opencode/skills/workflow/SKILL.md"
+  ],
+  "agent": {
+    "plan": {
+      "description": "Structure the requirement, define the approach, and plan execution before implementation.",
+      "prompt": "You are in the PLAN phase of the IngenIAr workflow. Follow the workflow skill, AGENTS.md, and the system context. If the requirement is not yet structured with RICO, go back to the Prompt Engineer phase first. Structure the requirement using RICO when needed and create an ordered execution plan with atomic tasks. If the solution shape is not yet clear, hand off to the architecture stage before implementation. If the request involves creating a new project, Task 1 MUST be: python scripts/new_project.py. IMPORTANT: write the plan file to .ai-dev/plans/ BEFORE finishing this phase. Do not implement code yet.",
+      "model": "inherit"
+    },
+    "architect": {
+      "description": "Define the solution shape and architecture before implementation when the task needs it.",
+      "prompt": "You are in the ARCHITECT phase of the IngenIAr workflow. Follow the workflow skill, AGENTS.md, and the system context. Define the solution shape, main components, data flow, assumptions, and risks. Keep the architecture simple and justified. Do not implement code. After this phase, the work should hand off to the Planner phase.",
+      "model": "inherit"
+    },
+    "build": {
+      "description": "Implement scoped changes after structuring, architecture, and planning, then prepare QA handoff.",
+      "prompt": "You are in the IMPLEMENT phase of the IngenIAr workflow. Follow the workflow skill, AGENTS.md, and the approved plan. Implement only after requirement structuring (RICO), architecture, and planning are clear. Keep changes inside scope, document notable trade-offs, and prepare QA validation. NEW PROJECTS: you MUST run python scripts/new_project.py first \u2014 never create project dirs manually. After implementation, hand off to the QA phase. Do NOT close work yourself \u2014 that is QA + Review's job. Do NOT say 'completed' or 'done' \u2014 only QA + Review can close work.",
+      "model": "inherit",
+      "steps": 30
+    },
+    "qa": {
+      "description": "Validate completed work, write governance records, and block closure until QA passes.",
+      "prompt": "You are in the QA phase of the IngenIAr workflow. Follow the workflow skill, AGENTS.md, and the approved plan. Your job has TWO parts: (1) Validate the work \u2014 run applicable checks and tests, run python scripts/validate_ingeniar.py, report PASS or FAIL clearly. (2) Write governance records \u2014 YOU are responsible for writing these files before finishing: (a) A QA record in .ai-dev/qa/ with date, scope, checks, PASS/FAIL, issues, recommendation. (b) If the plan agent didn't write the plan file, write it now in .ai-dev/plans/. If FAIL, return to Developer. If PASS, hand off to Review. Do NOT skip writing the .ai-dev/ records \u2014 they are mandatory for closure.",
+      "model": "inherit",
+      "steps": 15
+    },
+    "review": {
+      "description": "Review final coherence, completeness, and delivery quality before closure.",
+      "prompt": "You are in the REVIEW phase of the IngenIAr workflow. Follow the workflow skill and AGENTS.md. Review the final result for coherence, completeness, scope alignment, and delivery quality. Verify that .ai-dev/ has the expected traceability artifacts (plan, QA record). Do not implement fixes \u2014 report PASS or NEEDS_CHANGES with key findings and risks. If NEEDS_CHANGES, return to Developer. If PASS, the work can be closed.",
+      "model": "inherit"
+    }
+  },
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    },
+    "github": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "enabled": true,
+      "environment": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "postgres": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-postgres", "{env:POSTGRES_CONNECTION_STRING}"],
+      "enabled": true
+    },
+    "web-search": {
+      "type": "local",
+      "command": ["duckduckgo-mcp"],
+      "enabled": true
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "enabled": true
+    }
+  }
+}
