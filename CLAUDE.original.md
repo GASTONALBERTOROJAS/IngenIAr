@@ -1,41 +1,41 @@
 
 # IngenIAr — Claude Runtime
 
-Repository follows IngenIAr system.
+This repository follows the IngenIAr system.
 
 ## Behavioral contract
 
-Work through this sequence for every meaningful request:
+Always work through this sequence for every meaningful request:
 
-1. interpret request — ambiguous? ASK before proceeding
+1. interpret request — if ambiguous, ASK before proceeding
 2. structure requirements using RICO (Role, Instructions, Context, Objective)
-3. design solution — architecture, components, risks
-4. plan execution — atomic tasks, ordered with dependencies
-5. implement — execute approved plan only
+3. design solution — define architecture, components, risks
+4. plan execution — break into atomic tasks, ordered with dependencies
+5. implement — execute the approved plan only
 6. validate with QA — run tests, checks, validator; write QA record in `.ai-dev/qa/`
-7. review — coherence, completeness, scope alignment
+7. review — verify coherence, completeness, scope alignment
 8. close only if QA passes AND review passes
 
-New projects: MUST run `python scripts/new_project.py <name> --description "desc"` — never create project dirs manually.
+For new projects: you MUST run `python scripts/new_project.py <name> --description "desc"` — never create project dirs manually.
 
-Meaningful work: write plan in `.ai-dev/plans/`, QA record in `.ai-dev/qa/`, review in `.ai-dev/artifacts/`.
+For every meaningful work: write plan in `.ai-dev/plans/`, QA record in `.ai-dev/qa/`, review in `.ai-dev/artifacts/`.
 
 ## Mandatory rules
 
-- no direct code when requirement structuring or planning missing
-- reconstruct requirement when possible, ask only for missing critical info
-- architecture + planning explicit before implementation
+- do not jump directly into code when requirement structuring or planning is still missing
+- reconstruct the requirement when possible and ask only for missing critical information
+- keep architecture and planning explicit before implementation
 - split large work into explicit steps
-- explain relevant decisions + trade-offs
-- preserve traceability in project files when changes meaningful
-- no task closure without QA
-- new projects MUST use `python scripts/new_project.py <name> --description "desc"`
-- record plans in `.ai-dev/plans/` and QA evidence in `.ai-dev/qa/` before closing
+- explain relevant decisions and trade-offs
+- preserve traceability in project files when changes are meaningful
+- do not close tasks without QA
+- new projects MUST be created using `python scripts/new_project.py <name> --description "desc"`
+- record plans in `.ai-dev/plans/` and QA evidence in `.ai-dev/qa/` before closing work
 - run `python scripts/validate_ingeniar.py` to verify governance compliance
 
 ## Role application
 
-Apply implicitly when context requires:
+Apply these roles implicitly when the context requires them:
 
 - Prompt Engineer
 - Architect
@@ -44,39 +44,39 @@ Apply implicitly when context requires:
 - QA
 - Reviewer
 
-Roles separated.
+Keep roles separated.
 
 ## QA closure gate
 
 Mandatory closure rule:
 
 - Planner → Developer → QA
-- QA fails → return to development
-- close only when QA passes
-- QA record in `.ai-dev/qa/` with scope, checks executed, PASS/FAIL
+- if QA fails, return to development
+- only close when QA passes
+- create a QA record in `.ai-dev/qa/` with scope, checks executed, and PASS/FAIL
 
-Reviewer for final coherence, completeness, delivery quality when task meaningful.
+Use Reviewer for final coherence, completeness and delivery quality when the task is meaningful.
 
 ## Enforcement
 
-Governance enforced automatically:
+Governance is enforced automatically:
 
 - Pre-commit hook runs `scripts/validate_ingeniar.py` before every commit
-- CI pipeline `.github/workflows/validate.yml` runs same validator on push/PR
-- `scripts/new_project.py` only approved way to create new projects
+- CI pipeline `.github/workflows/validate.yml` runs the same validator on push/PR
+- `scripts/new_project.py` is the only approved way to create new projects
 
 ## Use of documentation
 
-Framework/library/API info needed:
+When framework, library or API information is needed:
 
-- use available documentation tools (Context7)
-- prefer real + current examples
+- use available documentation tools such as Context7
+- prefer real and current examples
 
-No external docs for trivial internal logic.
+Do not use external documentation for trivial internal logic.
 
 ## Context
 
-Read when needed:
+Read these files when needed:
 
 - `AGENTS.md`
 - `shared/agent_core/core.md`
@@ -85,9 +85,9 @@ Read when needed:
 
 ## Subagents
 
-Use for:
+Use project/system subagents for:
 
-- prompt engineering + clarification
+- prompt engineering and clarification
 - architecture
 - planning
 - implementation

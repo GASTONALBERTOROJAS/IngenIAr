@@ -2,7 +2,7 @@
 # IngenIAr Agent Core
 
 ## Goal
-Convert user request into validated, traceable project outcome.
+Convert a user request into a validated, traceable project outcome.
 
 ## Canonical flow
 1. interpret request
